@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.dao.UserDao;
 import com.example.entity.User;
+import com.example.service.UserService;
 
 import java.util.Scanner;
 import java.util.List;
@@ -11,10 +12,12 @@ public class App {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserDao userDao = new UserDao();
+    private static final UserService userService = new UserService(userDao);
 
     public static void main(String[] args) {
         System.out.println("=== User Management Console App ===");
         System.out.println("Using Hibernate + PostgreSQL (without Spring)");
+
 
         while (true) {
             showMenu();
@@ -56,13 +59,13 @@ public class App {
         Integer age = getIntInput("Возраст: ");
 
         User user = new User(name, email, age);
-        User saved = userDao.create(user);
+        User saved = userService.createUser(user);
         System.out.println("Пользователь создан: " + saved);
     }
 
     private static void readUser() {
         Long id = getLongInput("Введите ID пользователя: ");
-        Optional<User> userOpt = userDao.findById(id);
+        Optional<User> userOpt = userService.findById(id);
         if (userOpt.isPresent()) {
             System.out.println("Найден пользователь: " + userOpt.get());
         } else {
@@ -72,7 +75,7 @@ public class App {
 
     private static void updateUser() {
         Long id = getLongInput("Введите ID пользователя для обновления: ");
-        Optional<User> userOpt = userDao.findById(id);
+        Optional<User> userOpt = userService.findById(id);
         if (userOpt.isEmpty()) {
             System.out.println("Пользователь не найден.");
             return;
@@ -97,18 +100,18 @@ public class App {
             }
         }
 
-        User updated = userDao.update(user);
+        User updated = userService.updateUser(user);
         System.out.println("Пользователь обновлен: " + updated);
     }
 
     private static void deleteUser() {
         Long id = getLongInput("Введите ID пользователя для удаления: ");
-        userDao.delete(id);
+        userService.deleteUser(id);
         System.out.println("Пользователь с ID " + id + " удален.");
     }
 
     private static void listAllUsers() {
-        List<User> users = userDao.findAll();
+        List<User> users = userService.findAll();
         if (users.isEmpty()) {
             System.out.println("Нет ни одного пользователя.");
         } else {

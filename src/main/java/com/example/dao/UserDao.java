@@ -26,6 +26,15 @@ public class UserDao {
         }
     }
 
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void close() {
+        if (sessionFactory != null && !sessionFactory.isClosed()) {
+            sessionFactory.close();
+        }
+    }
     // Создать пользователя
     public User create(User user) {
         Transaction transaction = null;

@@ -1,3 +1,4 @@
+com\example\service\UserService.class
 com\example\entity\User.class
 com\example\dao\UserDao.class
 com\example\App.class
