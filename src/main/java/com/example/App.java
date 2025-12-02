@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.dao.UserDao;
+import com.example.dao.UserDaoImpl;
 import com.example.entity.User;
 import com.example.service.UserService;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 public class App {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final UserDao userDao = new UserDao();
+    private static final UserDao userDao = new UserDaoImpl();
     private static final UserService userService = new UserService(userDao);
 
     public static void main(String[] args) {
