@@ -1,5 +1,6 @@
 com\example\entity\User.class
-com\example\dao\UserDao.class
-com\example\App.class
+com\example\repository\UserRepository.class
+com\example\Application.class
 com\example\service\UserService.class
-com\example\dao\UserDaoImpl.class
+com\example\dto\UserDto.class
+com\example\controller\UserController.class

@@ -1,36 +1,38 @@
-package com.example.entity;
+package com.example.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "users")
-public class User {
+public class UserDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @NotBlank(message = "Имя не может быть пустым")
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true, length = 255)
+    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Некорректный email")
     private String email;
 
-    @Column(name = "age")
+    @NotNull(message = "Возраст обязателен")
+    @Positive(message = "Возраст должен быть положительным")
     private Integer age;
 
-    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    public User() {}
+    // Конструкторы
+    public UserDto() {}
 
-    public User(String name, String email, Integer age) {
+    public UserDto(String name, String email, Integer age) {
         this.name = name;
         this.email = email;
         this.age = age;
-        this.createdAt = LocalDateTime.now();
     }
+
 
     // Геттеры и сеттеры
     public Long getId() { return id; }
@@ -47,5 +49,4 @@ public class User {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
 }
