@@ -14,21 +14,18 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
-    private static SessionFactory sessionFactory;
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+    private final SessionFactory sessionFactory;
 
-    static {
-        try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            logger.error("Initial SessionFactory creation failed.", ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
+
+
 
     public void close() {
         if (sessionFactory != null && !sessionFactory.isClosed()) {

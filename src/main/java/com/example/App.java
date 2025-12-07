@@ -4,17 +4,27 @@ import com.example.dao.UserDao;
 import com.example.dao.UserDaoImpl;
 import com.example.entity.User;
 import com.example.service.UserService;
-
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import java.util.Scanner;
 import java.util.List;
 import java.util.Optional;
 
 public class App {
 
+    private static SessionFactory sessionFactory;
     private static final Scanner scanner = new Scanner(System.in);
-    private static final UserDao userDao = new UserDaoImpl();
+    private static final UserDao userDao = new UserDaoImpl(sessionFactory);
     private static final UserService userService = new UserService(userDao);
 
+    static {
+        try {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
     public static void main(String[] args) {
         System.out.println("=== User Management Console App ===");
         System.out.println("Using Hibernate + PostgreSQL (without Spring)");
